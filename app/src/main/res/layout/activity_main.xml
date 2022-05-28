@@ -83,6 +83,62 @@
             tools:ignore="SpeakableTextPresentCheck"></EditText>
     </com.google.android.material.textfield.TextInputLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/button_design"
+            android:layout_below="@+id/password"
+            android:id="@+id/login">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_marginStart="8dp"
+                android:textSize="15dp"
+                android:text="Log In"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white">
+            </TextView>
+        </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Forgot Password"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textColor="@color/black"
+        android:layout_below="@+id/login"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center">
+    </TextView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/button_design"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/gotosignup">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp"
+            android:textSize="15dp"
+            android:text="New User! Want To Sign"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white">
+        </TextView>
+    </RelativeLayout>
+
 
 
 
