@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NoteApp">
         <activity
+            android:name=".notesactivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
+            android:label="@string/title_activity_notesactivity"
+            android:theme="@style/Theme.NoteApp.Fullscreen" />
+        <activity
             android:name=".fogotpassword"
             android:exported="false" />
         <activity
