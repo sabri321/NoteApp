@@ -3,6 +3,7 @@ package com.example.noteapp;
 import android.annotation.SuppressLint;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,8 +21,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.noteapp.databinding.ActivityNotesactivityBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -30,6 +35,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 
 public class notesactivity extends AppCompatActivity {
@@ -72,11 +81,57 @@ public class notesactivity extends AppCompatActivity {
         //.....
 
              noteAdapter=new FirestoreRecyclerAdapter<firebasemodel, NoteViewHolder>(allusernotes) {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             protected void onBindViewHolder(@NonNull NoteViewHolder noteViewHolder, int i, @NonNull firebasemodel firebasemodel) {
 
+                ImageView popupbutton=noteViewHolder.itemView.findViewById(R.id.menupopbutton);
+
+                int colourcode=getRandomColor();
+                noteViewHolder.mnote.setBackgroundColor(noteViewHolder.itemView.getResources().getColor(colourcode,null));
+
                 noteViewHolder.notetitle.setText(firebasemodel.getTitle());
                 noteViewHolder.notecontent.setText(firebasemodel.getContent());
+
+                noteViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //We Have to open note detail activity
+                        Intent intent=new Intent(view.getContext(),notedetails.class);
+                        view.getContext().startActivity(intent);
+
+                        //Toast.makeText(getApplicationContext(), "This is Clicked", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                popupbutton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        PopupMenu popupMenu=new PopupMenu(view.getContext(),view);
+                        popupMenu.setGravity(Gravity.END);
+                        popupMenu.getMenu().add("Edit").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                                Intent intent=new Intent(view.getContext(),editnoteactivity.class);
+                                view.getContext().startActivity(intent);
+                                return false;
+                            }
+                        });
+
+                        popupMenu.getMenu().add("Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem menuItem) {
+                                Toast.makeText(view.getContext(),"This note is delete",Toast.LENGTH_SHORT).show();
+                                return false;
+                            }
+                        });
+
+                        popupMenu.show();
+
+                    }
+                });
 
 
             }
@@ -148,6 +203,27 @@ public class notesactivity extends AppCompatActivity {
         {
             noteAdapter.startListening();
         }
+    }
+
+    private int getRandomColor()
+    {
+        List<Integer>colorcode=new ArrayList<>();
+        colorcode.add(R.color.gray);
+        colorcode.add(R.color.green);
+        colorcode.add(R.color.pink);
+        colorcode.add(R.color.lightgreen);
+        colorcode.add(R.color.skyblue);
+        colorcode.add(R.color.color1);
+        colorcode.add(R.color.color2);
+        colorcode.add(R.color.color3);
+        colorcode.add(R.color.color4);
+        colorcode.add(R.color.color5);
+
+        Random random=new Random();
+        int number=random.nextInt(colorcode.size());
+        return colorcode.get(number);
+
+
     }
 
 }
