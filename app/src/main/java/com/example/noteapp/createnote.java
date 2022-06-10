@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -30,6 +31,8 @@ public class createnote extends AppCompatActivity {
     FirebaseUser firebaseUser;
     FirebaseFirestore firebaseFirestore;
 
+    ProgressBar mprogressbarofcreatenote;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +42,8 @@ public class createnote extends AppCompatActivity {
         msavenote=findViewById(R.id.savenote);
         mcreatecontentofnote=findViewById(R.id.createcontentofnote);
         mcreatetitleofnote=findViewById(R.id.createtitleofnote);
+
+        mprogressbarofcreatenote=findViewById(R.id.progressbarofcreatenote);
 
         Toolbar toolbar=findViewById(R.id.toolbarofcreatenote);
         //setSupportActionBar(toolbar);
@@ -61,6 +66,8 @@ public class createnote extends AppCompatActivity {
                 }
                 else
                 {
+                    mprogressbarofcreatenote.setVisibility(View.VISIBLE);
+
                     DocumentReference documentReference=firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").document();
 
                     Map<String ,Object> note=new HashMap<>();
@@ -77,6 +84,7 @@ public class createnote extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(getApplicationContext(), "Failed To Create Note",Toast.LENGTH_SHORT).show();
+                            mprogressbarofcreatenote.setVisibility(View.INVISIBLE);
                             //startActivity(new Intent(createnote.this,notesactivity.class));
                         }
                     });

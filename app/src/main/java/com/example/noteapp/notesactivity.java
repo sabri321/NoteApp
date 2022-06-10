@@ -30,9 +30,12 @@ import android.widget.Toast;
 import com.example.noteapp.databinding.ActivityNotesactivityBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -93,12 +96,22 @@ public class notesactivity extends AppCompatActivity {
                 noteViewHolder.notetitle.setText(firebasemodel.getTitle());
                 noteViewHolder.notecontent.setText(firebasemodel.getContent());
 
+                String docId=noteAdapter.getSnapshots().getSnapshot(i).getId();
+
                 noteViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         //We Have to open note detail activity
+
                         Intent intent=new Intent(view.getContext(),notedetails.class);
+
+                        intent.putExtra("title",firebasemodel.getTitle());
+                        intent.putExtra("content",firebasemodel.getContent());
+                        intent.putExtra("noteId",docId);
+
                         view.getContext().startActivity(intent);
+
+
 
                         //Toast.makeText(getApplicationContext(), "This is Clicked", Toast.LENGTH_SHORT).show();
                     }
@@ -115,6 +128,11 @@ public class notesactivity extends AppCompatActivity {
                             public boolean onMenuItemClick(MenuItem menuItem) {
 
                                 Intent intent=new Intent(view.getContext(),editnoteactivity.class);
+
+                                intent.putExtra("title",firebasemodel.getTitle());
+                                intent.putExtra("content",firebasemodel.getContent());
+                                intent.putExtra("noteId",docId);
+
                                 view.getContext().startActivity(intent);
                                 return false;
                             }
@@ -123,7 +141,21 @@ public class notesactivity extends AppCompatActivity {
                         popupMenu.getMenu().add("Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem menuItem) {
-                                Toast.makeText(view.getContext(),"This note is delete",Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(view.getContext(),"This note is delete",Toast.LENGTH_SHORT).show();
+
+                                DocumentReference documentReference=firebaseFirestore.collection("notes").document(firebaseUser.getUid()).collection("myNotes").document(docId);
+                                documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(view.getContext(),"This note is delete",Toast.LENGTH_SHORT).show();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(view.getContext(),"Failed To Delete",Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
                                 return false;
                             }
                         });
@@ -201,7 +233,7 @@ public class notesactivity extends AppCompatActivity {
         super.onStop();
         if (noteAdapter!=null)
         {
-            noteAdapter.startListening();
+            noteAdapter.stopListening();
         }
     }
 

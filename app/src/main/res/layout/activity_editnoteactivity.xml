@@ -7,9 +7,9 @@
     tools:context=".editnoteactivity">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarofeditnote"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:id="@+id/toolbarofeditnote"
         android:background="@color/white">
 
         <EditText
@@ -20,7 +20,8 @@
             android:textColor="@color/black"
             android:textSize="20dp"
             android:textStyle="bold"
-            tools:ignore="SpeakableTextPresentCheck"></EditText>
+            tools:ignore="SpeakableTextPresentCheck">
+        </EditText>
 
 
     </androidx.appcompat.widget.Toolbar>
@@ -35,7 +36,8 @@
         android:padding="15sp"
         android:textColor="@color/black"
         android:textSize="15sp"
-        tools:ignore="SpeakableTextPresentCheck"></EditText>
+        tools:ignore="SpeakableTextPresentCheck">
+    </EditText>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -48,8 +50,8 @@
         android:layout_marginRight="30dp"
         android:layout_marginBottom="30dp"
         tools:ignore="SpeakableTextPresentCheck"
-        android:src="@drawable/udatee"
-        android:background="#A1F4FB"
+        android:src="@drawable/ic_baseline_arrow_circle_up_24"
+        android:background="#A1F4AB"
         app:maxImageSize="40dp">
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
