@@ -9,4 +9,4 @@ Dengan adanya catatan yang Anda simpan pada Aplikasi tersebut, maka dapat meliha
 2. Lalu Ismail
 3. Teguh Wahyu Santoso
 
-Link Youtube [Tugas NoteApp UAS Android Studio](https://youtube.com/watch?v=iSt52MllpSEfeature=share)
+Link Youtube [Tugas NoteApp UAS Android Studio](https://youtube.com/watch?v=iSt52MIIpSw&feature=share)
